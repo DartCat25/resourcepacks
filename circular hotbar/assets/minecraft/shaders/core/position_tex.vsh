@@ -64,7 +64,7 @@ void main() {
         float r = 32 + strID / 2;
         Pos.xy = offset + vec2(sin(circPos) * r - 5, cos(-circPos) * r - 4) + corners[id] * 9;        
     }
-    else if (uv.x >= 16 && uv.x - 9 + corners[id].x * 9 <= 52 && uv.y - corners[id].y * 9 == 9) //Armor
+    else if (uv.x >= 16 && uv.x - corners[id].x * 9 <= 43 && uv.y - corners[id].y * 9 == 9) //Armor
     {
         int armorID = int(Pos.x - ScrSize.x / 2 + 96) / 8 - int(id > 1);
         float circPos = ((9 - armorID) / 10.0 + 0.4) * PI;
