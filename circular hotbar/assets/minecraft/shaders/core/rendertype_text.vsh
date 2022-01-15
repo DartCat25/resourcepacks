@@ -22,7 +22,7 @@ void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
     
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
-    vertexDistance = cylindrical_distance(ModelViewMat, IViewRotMat * Position);    
+    vertexDistance = cylindrical_distance(ModelViewMat, IViewRotMat * Position);
     texCoord0 = UV0;
 
     //Xp number offset
@@ -30,7 +30,7 @@ void main() {
     vec2 ScrSize = ScreenSize / Scale;
     vec3 isXpGreen = abs(Color.rgb - vec3(0x7e, 0xfc, 0x20) / 255);
     if (Position.z == 0 && Position.y >= ScrSize.y - 36 && Position.y <= ScrSize.y - 25
-    && (Color.rgb == vec3(0, 0, 0) || (isXpGreen.r < 0.1 && isXpGreen.r < 0.1 && isXpGreen.r < 0.1)))
+    && (abs(Position.x - ScrSize.x / 2) <= 33 && (Color.rgb == vec3(0, 0, 0) || (isXpGreen.r < 0.1 && isXpGreen.r < 0.1 && isXpGreen.r < 0.1))))
     {
         vec3 Pos = Position;
         

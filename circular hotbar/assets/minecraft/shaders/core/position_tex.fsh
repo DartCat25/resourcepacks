@@ -21,7 +21,7 @@ void main() {
     if (helpCoord.x != 0)
     {
         vec2 inCoord = (helpCoord + 1) / 2;
-        uv -= inCoord / 256 * vec2(182, 5);
+        uv -= inCoord * vec2(0.7109375, 0.01953125);
 
         vec2 hCoord = helpCoord;
 
@@ -32,7 +32,7 @@ void main() {
         if(offset.x > 1 || offset.y > 1 / 36.4 || offset.x < 0 || offset.y < 0)
             discard;
         
-        uv += offset / 256 * vec2(182, 182);
+        uv += offset * vec2(0.7109375);
     }
 
     vec4 color = texture(Sampler0, uv);

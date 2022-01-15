@@ -11,8 +11,6 @@ uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
 uniform vec2 ScreenSize;
 
-uniform float GameTime;
-
 out vec2 texCoord0;
 out vec2 helpCoord;
 out float xp;
