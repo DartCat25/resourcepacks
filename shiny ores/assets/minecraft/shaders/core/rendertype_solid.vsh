@@ -19,7 +19,6 @@ uniform sampler2D Sampler2;
 
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
-uniform mat3 IViewRotMat;
 
 uniform vec3 ChunkOffset;
 
@@ -37,9 +36,9 @@ void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Pos, 1.0);
 
     #ifdef NEW_FOG
-        vertexDistance = cylindrical_distance(ModelViewMat, IViewRotMat * Position);
+        vertexDistance = cylindrical_distance(ModelViewMat, Pos);
     #else
-        vertexDistance = length((ModelViewMat * vec4(Pos + vec3(0, 0.5, 0), 1.0)).xyz);
+        vertexDistance = length((ModelViewMat * vec4(Pos, 1.0)).xyz);
     #endif
 
     vertexColor = Color * minecraft_sample_lightmap(Sampler2, UV2);
