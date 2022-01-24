@@ -1,5 +1,6 @@
 #version 150
 
+#moj_import <config.glsl>
 #moj_import <fog.glsl>
 
 in vec3 Position;
@@ -30,11 +31,22 @@ void main() {
     vec2 ScrSize = ScreenSize / Scale;
     vec3 isXpGreen = abs(Color.rgb - vec3(0x7e, 0xfc, 0x20) / 255);
     if (Position.z == 0 && Position.y >= ScrSize.y - 36 && Position.y <= ScrSize.y - 25
-    && (abs(Position.x - ScrSize.x / 2) <= 33 && (Color.rgb == vec3(0, 0, 0) || (isXpGreen.r < 0.1 && isXpGreen.r < 0.1 && isXpGreen.r < 0.1))))
+    && (abs(Position.x - ScrSize.x / 2) <= 33 && (Color.rgb == vec3(0, 0, 0) || (isXpGreen.r < 0.1 && isXpGreen.g < 0.1 && isXpGreen.b < 0.1))) && Color.a == 1)
     {
         vec3 Pos = Position;
-        
-        Pos.xy -= vec2(ScrSize.x / 2 - 104, 3);
+
+        Pos.xy -= vec2(ScrSize.x / 2, -32 + ScrSize.y);
+
+        #if HORISONTAL == 0
+            Pos.x += 104;
+        #else
+            Pos.x += ScrSize.x - 104;
+        #endif
+        #if VERTICAL == 0
+            Pos.y += ScrSize.y - 35;
+        #else
+            Pos.y += 86;
+        #endif
 
         gl_Position = ProjMat * ModelViewMat * vec4(Pos, 1.0);
     }

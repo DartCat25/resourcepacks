@@ -1,5 +1,7 @@
 #version 150
 
+#moj_import <config.glsl>
+
 #define PI 3.1415926
 
 uniform sampler2D Sampler0;
@@ -25,7 +27,11 @@ void main() {
 
         vec2 hCoord = helpCoord;
 
-        vec2 offset = vec2(mod((atan(hCoord.y, hCoord.x)) / PI / 2 + 0.9, 1) * 1.025, (1 - length(hCoord)) / 5);
+        #if HORISONTAL == 1
+            hCoord.x *= -1;
+        #endif
+
+        vec2 offset = vec2(mod((atan(hCoord.y, hCoord.x)) / PI / 2 + 0.9025, 1) * 1.025, (1 - length(hCoord)) / 5);
         if (offset.x >= xp / inCoord.x)
             discard;
         

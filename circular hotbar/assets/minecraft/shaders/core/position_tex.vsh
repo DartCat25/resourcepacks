@@ -1,5 +1,13 @@
 #version 150
 
+#moj_import <config.glsl>
+
+#if HORISONTAL == 0
+    #define FLIPX 1
+#else
+    #define FLIPX -1
+#endif
+
 #define PI 3.1415926
 
 in vec3 Position;
@@ -38,21 +46,36 @@ void main() {
     int Scale = int(ScreenSize.x * ProjMat[0][0] / 2);
     vec2 ScrSize = ScreenSize / Scale;
     int id = (gl_VertexID + 1) % 4;
-    vec2 offset = vec2(60, ScrSize.y - 60);
-    //vec2 offset = ScrSize / 2;
 
-    if (uv.x >= 16 && uv.x <= 196 && uv.y - corners[id].y * 9 == 0) //Hearts
+    vec2 offset = vec2(60, ScrSize.y - 60);
+
+    #if HORISONTAL == 1
+        offset.x = ScrSize.x - 60;
+    #endif
+    #if VERTICAL == 1
+        offset.y = 60;
+    #endif
+
+    if (uv.x >= 16 && uv.x <= 196 && (uv.y - corners[id].y * 9 == 0 || uv.y - corners[id].y * 9 == 45)) //Hearts
     {
         int heartID = int(Pos.x - ScrSize.x / 2 + 96) / 8 - int(id > 1);
         int strID = int(ScrSize.y - Pos.y - 37) + int(id == 1 || id == 2) * 8;
 
-        int toBig = int(strID >= 9);
-        if (toBig != 0) strID += int(id == 1 || id == 2);
+        int tooBig = int(strID >= 9);
+        if (tooBig != 0) strID += int(id == 1 || id == 2);
 
         float circPos = ((9 - heartID) / 10.0 + 0.4) * PI;
-        if (toBig != 0) circPos = circPos / int(strID / 9) + PI * (strID / 150.0 - 0.1);
-        float r = 32 + strID + toBig * 17;
-        Pos.xy = offset + vec2(sin(circPos) * r - 5, cos(-circPos) * r - 4) + corners[id] * 9;
+        if (tooBig != 0) circPos = circPos / int(strID / 9) + PI * (strID / 150.0 - 0.1);
+        float r = 32 + strID + tooBig * 17;
+
+        //Flip only hearts out of circle
+        #if VERTICAL == 0
+            int flipYBig = 1;
+        #else
+            int flipYBig = tooBig * -2 + 1;
+        #endif
+
+        Pos.xy = offset + vec2(sin(circPos) * r * FLIPX - 5, cos(circPos) * r * flipYBig - 4) + corners[id] * 9;
     }
     else if (uv.x >= 16 && uv.x <= 142 && uv.y - corners[id].y * 9 == 27) //Food
     {
@@ -60,21 +83,21 @@ void main() {
         int strID = int(ScrSize.y - Pos.y - 37) + int(id == 1 || id == 2) * 8;
         float circPos = (foodID / 10.0 + 1.4) * PI;
         float r = 32 + strID / 2;
-        Pos.xy = offset + vec2(sin(circPos) * r - 5, cos(-circPos) * r - 4) + corners[id] * 9;        
+        Pos.xy = offset + vec2(sin(circPos) * r * FLIPX - 5, cos(circPos) * r - 4) + corners[id] * 9;        
     }
     else if (uv.x >= 16 && uv.x - corners[id].x * 9 <= 43 && uv.y - corners[id].y * 9 == 9) //Armor
     {
         int armorID = int(Pos.x - ScrSize.x / 2 + 96) / 8 - int(id > 1);
         float circPos = ((9 - armorID) / 10.0 + 0.4) * PI;
         float r = 43;
-        Pos.xy = offset + vec2(sin(circPos) * r - 5, cos(-circPos) * r - 4) + corners[id] * 9;
+        Pos.xy = offset + vec2(sin(circPos) * r * FLIPX - 5, cos(circPos) * r - 4) + corners[id] * 9;
     }
     else if (uv.x >= 16 && uv.x - 9 + corners[id].x * 9 <= 52 && uv.y - corners[id].y * 9 == 18) //Air
     {
         int bubbleID = int(Pos.x - ScrSize.x / 2 - 6) / 8 - int(id > 1);
         float circPos = (bubbleID / 10.0 + 1.4) * PI;
         float r = 42;
-        Pos.xy = offset + vec2(sin(circPos) * r - 5, cos(-circPos) * r - 4) + corners[id] * 9;        
+        Pos.xy = offset + vec2(sin(circPos) * r * FLIPX - 5, cos(circPos) * r - 4) + corners[id] * 9;        
     }
     else if (uv.x <= 182 && uv.y >= 64 && uv.y <= 74) //XP bar
     {
