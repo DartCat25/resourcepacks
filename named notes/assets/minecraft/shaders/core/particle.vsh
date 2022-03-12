@@ -1,9 +1,11 @@
 #version 150
 
-#define VERSION 0 //0 - 1.17-1.18(1.18.1+ with broken fog); 1 - 1.18.1; 2 - 1.18.2(+);
+//Note Letters. Made by DartCat25.
+//PMC: https://www.planetminecraft.com/texture-pack/named-notes/
 
+
+#define VERSION 0 //0 - 1.17-1.18(1.18.1+ with broken fog); 1 - 1.18.1; 2 - 1.18.2(+);
 #define NOTES_COUNT 12
-#define COLORS_COUNT 25 //Two octaves + F# of third octave;
 
 #if VERSION > 0
     #moj_import <fog.glsl>
@@ -26,37 +28,26 @@ out float vertexDistance;
 out vec2 texCoord0;
 out vec4 vertexColor;
 
-const vec3[COLORS_COUNT] tCol = vec3[COLORS_COUNT](
-    //First octave
-    vec3(89, 232, 0),
-    vec3(132, 206, 0),
-    vec3(172, 172, 0),
-    vec3(206, 132, 0),
-    vec3(232, 89, 0),
-    vec3(249, 46, 0),
-    vec3(255, 6, 6),
-    vec3(249, 0, 46),
-    vec3(232, 0, 89),
-    vec3(206, 0, 132),
-    vec3(172, 0, 172),
-    vec3(132, 0, 206),
-    //Second octave
-    vec3(89, 0, 232),
-    vec3(46, 0, 249),
-    vec3(6, 6, 255),
-    vec3(0, 46, 249),
-    vec3(0, 89, 232),
-    vec3(0, 132, 206),
-    vec3(0, 172, 172),
-    vec3(0, 206, 132),
-    vec3(0, 232, 89),
-    vec3(0, 249, 46),
-    vec3(6, 255, 6),
-    vec3(46, 249, 0),
-    //Third octave
-    vec3(89, 232, 0)
-);
-//Calculation with sequence will be later.
+float getHue(vec3 rgb) {
+    vec3 hsv = vec3(0.0);
+    hsv.z = max(rgb.r, max(rgb.g, rgb.b));
+    float min = min(rgb.r, min(rgb.g, rgb.b));
+    float c = hsv.z - min;
+
+    vec3 delta = (hsv.z - rgb) / c;
+    delta.rgb -= delta.brg;
+    delta.rg += vec2(2.0, 4.0);
+    if (rgb.r >= hsv.z) {
+        hsv.x = delta.b;
+    } else if (rgb.g >= hsv.z) {
+        hsv.x = delta.r;
+    } else {
+        hsv.x = delta.g;
+    }
+    hsv.x = fract(hsv.x / 6.0);
+
+    return hsv.x;
+}
 
 void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
@@ -83,17 +74,9 @@ void main() {
     {
         uv -= vec2(48, 32) * corner;
         
-        vec3 compCol = floor(Color.rgb * 255);
-        for (int i = 0; i < COLORS_COUNT; i++)
-        {
-            vec3 dif = abs(compCol - tCol[i]);
-            if (dif.r + dif.g + dif.b < 50)
-            {
-                int id = (i + 6) % NOTES_COUNT;
-                uv += vec2(id % 4, id / 4 % 3) * 16;
-                break;
-            }
-        }
+        int id = int(24 - round(getHue(Color.rgb) * 24)) % NOTES_COUNT; //Red note - C
+        uv += vec2(id % 4, id / 4 % 3) * 16;
+
         gl_Position += vec4((corner * 2 - 1), 1, 0) * vec4(0.1, -0.1, 0, 0) * ProjMat; //Expand Note
         texCoord0 = uv / texSize;
     }
