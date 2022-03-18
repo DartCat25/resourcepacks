@@ -21,12 +21,11 @@ void main() {
     
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 
-    position = vec2(-1);
-
-    Coords = vec4(gl_Position.xy / 2 + 0.5, Position.z, (ModelViewMat * vec4(1)).z);
+    Coords = vec4(-1);
+    position, Pos1, Pos2, flatCorner = vec2(-1);
 
     //Tooltip frame
-    if (Color.r != 0 && Color.g == 0 && Color.b != 0)
+    if (Color.r != 0 && Color.g == 0 && Color.b != 0 && ProjMat[3][0] == -1)
     {        
         int id = gl_VertexID / 4;
 
