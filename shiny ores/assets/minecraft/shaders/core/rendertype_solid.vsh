@@ -1,8 +1,8 @@
 #version 150
 
-#define NEW_FOG
+#define VERSION 0 //0 - 1.17-1.18; 1 - 1.18.1; 2 - 1.18.2;
 
-#ifdef NEW_FOG
+#if VERSION != 0
     #moj_import <fog.glsl>
 #endif
 
@@ -23,6 +23,8 @@ uniform mat4 ProjMat;
 uniform vec3 ChunkOffset;
 
 uniform vec4 FogColor;
+uniform int FogShape;
+
 out float vertexDistance;
 out vec4 vertexColor;
 out vec2 texCoord0;
@@ -35,7 +37,9 @@ void main() {
 
     gl_Position = ProjMat * ModelViewMat * vec4(Pos, 1.0);
 
-    #ifdef NEW_FOG
+    #if VERSION == 2
+        vertexDistance = fog_distance(ModelViewMat, pos, FogShape);
+    #elif VERSION == 1
         vertexDistance = cylindrical_distance(ModelViewMat, Pos);
     #else
         vertexDistance = length((ModelViewMat * vec4(Pos, 1.0)).xyz);
