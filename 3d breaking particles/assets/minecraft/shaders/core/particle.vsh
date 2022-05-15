@@ -35,9 +35,10 @@ void main() {
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
     Pos = vec4(0);
 
-    vec2 uv = (UV0 * textureSize(Sampler0, 0));
+    vec2 texSize = textureSize(Sampler0, 0);
+    vec2 uv = (UV0 * texSize);
 
-    if (floor(uv) != uv) //Breaking
+    if (floor(uv) != uv && texSize.y / texSize.x != 4) //Breaking
     {
         const vec2[4] corners = vec2[4](vec2(0), vec2(0, 1), vec2(1, 1), vec2(1, 0));
         int id = gl_VertexID % 4;
