@@ -12,7 +12,7 @@ out vec4 vertexColor;
 out vec4 Coords;
 out vec2 position;
 
-out vec2 flatCorner;
+flat out vec2 flatCorner;
 out vec2 Pos1;
 out vec2 Pos2;
 
