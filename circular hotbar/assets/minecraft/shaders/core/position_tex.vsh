@@ -43,17 +43,16 @@ void main() {
     //Base parameters
     const vec2[4] corners = vec2[4](vec2(0, 0), vec2(0, 1), vec2(1, 1), vec2(1, 0));
     vec3 Pos = Position;
-    int Scale = int(ScreenSize.x * ProjMat[0][0] / 2);
-    vec2 ScrSize = ScreenSize / Scale;
+    vec2 ScrSize = 2 / vec2(ProjMat[0][0], -ProjMat[1][1]);
     int id = (gl_VertexID + 1) % 4;
 
-    vec2 offset = vec2(60, ScrSize.y - 60);
+    vec2 offset = vec2(55, ScrSize.y - 64);
 
     #if HORISONTAL == 1
-        offset.x = ScrSize.x - 60;
+        offset.x = ScrSize.x - 65;
     #endif
     #if VERTICAL == 1
-        offset.y = 60;
+        offset.y = 56;
     #endif
 
     if (uv.x >= 16 && uv.x <= 196 && (uv.y - corners[id].y * 9 == 0 || uv.y - corners[id].y * 9 == 45)) //Hearts
@@ -75,7 +74,7 @@ void main() {
             int flipYBig = tooBig * -2 + 1;
         #endif
 
-        Pos.xy = offset + vec2(sin(circPos) * r * FLIPX - 5, cos(circPos) * r * flipYBig - 4) + corners[id] * 9;
+        Pos.xy = round(offset + vec2(sin(circPos) * FLIPX, cos(circPos) * flipYBig) * r + corners[id] * 9);
     }
     else if (uv.x >= 16 && uv.x <= 142 && uv.y - corners[id].y * 9 == 27) //Food
     {
@@ -83,25 +82,37 @@ void main() {
         int strID = int(ScrSize.y - Pos.y - 37) + int(id == 1 || id == 2) * 8;
         float circPos = (foodID / 10.0 + 1.4) * PI;
         float r = 32 + strID / 2;
-        Pos.xy = offset + vec2(sin(circPos) * r * FLIPX - 5, cos(circPos) * r - 4) + corners[id] * 9;        
+        Pos.xy = round(offset + vec2(sin(circPos) * FLIPX, cos(circPos)) * r + corners[id] * 9);       
     }
     else if (uv.x >= 16 && uv.x - corners[id].x * 9 <= 43 && uv.y - corners[id].y * 9 == 9) //Armor
     {
         int armorID = int(Pos.x - ScrSize.x / 2 + 96) / 8 - int(id > 1);
         float circPos = ((9 - armorID) / 10.0 + 0.4) * PI;
-        float r = 43;
-        Pos.xy = offset + vec2(sin(circPos) * r * FLIPX - 5, cos(circPos) * r - 4) + corners[id] * 9;
+
+        Pos.xy = round(offset + vec2(sin(circPos) * FLIPX, cos(circPos)) * 43 + corners[id] * 9);
+    }
+    else if (uv.x >= 16 && uv.x - corners[id].x * 9 >= 43 && uv.y - corners[id].y * 9 == 9) //Horse hearts
+    {
+        int heartID = int(Pos.x - ScrSize.x / 2 - 6) / 8 - int(id > 1);
+        int strID = int(ScrSize.y - Pos.y - 36.5) + int(id == 1 || id == 2) * 9;
+
+        float line23 = float(strID / 8 > 0);
+        float line3 = float(strID / 8 > 1);
+
+        float circPos = (heartID / 10.0 / (line23 + 1) + 1.4 + line23 * 0.4725 - line3 * 0.5) * PI;
+        float r = 32 + strID / 9 * 9 + line23 - line3 * 10;
+        Pos.xy = round(offset + vec2(sin(circPos) * FLIPX, cos(circPos)) * r + corners[id] * 9);
     }
     else if (uv.x >= 16 && uv.x - 9 + corners[id].x * 9 <= 52 && uv.y - corners[id].y * 9 == 18) //Air
     {
         int bubbleID = int(Pos.x - ScrSize.x / 2 - 6) / 8 - int(id > 1);
         float circPos = (bubbleID / 10.0 + 1.4) * PI;
-        float r = 42;
-        Pos.xy = offset + vec2(sin(circPos) * r * FLIPX - 5, cos(circPos) * r - 4) + corners[id] * 9;        
+
+        Pos.xy = offset + vec2(sin(circPos) * FLIPX, cos(circPos)) * 42 + corners[id] * 9;        
     }
-    else if (uv.x <= 182 && uv.y >= 64 && uv.y <= 74) //XP bar
+    else if (uv.x <= 182 && ((uv.y >= 64 && uv.y <= 74) || (uv.y >= 84 && uv.y <= 94))) //Xp and horse's jump Bars
     {
-        Pos.xy = offset + corners[id] * 110 - 55;
+        Pos.xy = offset + corners[id] * 110 - vec2(50, 51);
         helpCoord = corners[id] * 2 - 1;
         xp = uv.x / 182.0;
         if (id > 1)

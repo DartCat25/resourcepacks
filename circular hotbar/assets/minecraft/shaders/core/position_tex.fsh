@@ -19,7 +19,7 @@ void main() {
     
     vec2 uv = texCoord0;
 
-    //Xp Bar
+    //Xp and horse's jump Bars
     if (helpCoord.x != 0)
     {
         vec2 inCoord = (helpCoord + 1) / 2;
@@ -31,7 +31,12 @@ void main() {
             hCoord.x *= -1;
         #endif
 
-        vec2 offset = vec2(mod((atan(hCoord.y, hCoord.x)) / PI / 2 + 0.9025, 1) * 1.025, (1 - length(hCoord)) / 5);
+        vec2 offset = vec2(mod((atan(hCoord.y, hCoord.x)) / PI / 2 + 0.9025, 1), (1 - length(hCoord)) / 5);
+
+        #ifndef SUPER_SECRET_SETTING
+            offset.x *= 1.025;
+        #endif
+
         if (offset.x >= xp / inCoord.x)
             discard;
         
