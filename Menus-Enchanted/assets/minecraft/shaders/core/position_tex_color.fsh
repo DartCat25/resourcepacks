@@ -3,6 +3,9 @@
 //Code by DartCat25
 //https://www.planetminecraft.com/texture-pack/menus-enchanted/
 
+//Mini-config for Menus - Enchanted part
+//#define EXPECTED_TEXSIZE vec2(80) //Expected size of texture (it may add some mod support). Remove first "//" to make it work.
+
 //Mini-config for background transitions part
 #define CHANGE_SPEED 3 //Panoramas changing speed of background transitions; Decimal.
 #define TIMES 2        //Amount of full cycles on one turnover; Integer.
@@ -36,13 +39,16 @@ int noise(ivec2 v, int seed) {
 void main() {
     vec4 color = texture(Sampler0, texCoord0) * vertexColor;
     vec2 texSize = textureSize(Sampler0, 0);
-    if(texSize == vec2(80))
-    {
-        #moj_import <menus-enchanted.glsl>
-    }
-    else if (Pos.y != -1999 && texSize.x != texSize.y)
+    if (Pos.y != -1999 && texSize.x != texSize.y)
     {
         #moj_import <background-transitions.glsl>
+    }
+    else
+    #ifdef EXPECTED_TEXSIZE
+        if(texSize == EXPECTED_TEXSIZE)
+    #endif
+    {
+        #moj_import <menus-enchanted.glsl>
     }
     
     if (color.a < 0.1) {
