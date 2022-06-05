@@ -39,9 +39,12 @@ int noise(ivec2 v, int seed) {
 void main() {
     vec4 color = texture(Sampler0, texCoord0) * vertexColor;
     vec2 texSize = textureSize(Sampler0, 0);
-    if (Pos.y != -1999 && texSize.x != texSize.y)
+    if (Pos.y != -1999)
     {
-        #moj_import <background-transitions.glsl>
+        if (texSize.x != texSize.y)
+        {
+            #moj_import <background-transitions.glsl>
+        }
     }
     else
     #ifdef EXPECTED_TEXSIZE
