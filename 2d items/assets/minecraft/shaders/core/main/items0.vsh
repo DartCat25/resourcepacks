@@ -2,6 +2,7 @@
 
 #moj_import <light.glsl>
 #moj_import <fog.glsl>
+#define NO_LIGHTMAP
 
 in vec3 Position;
 in vec4 Color;

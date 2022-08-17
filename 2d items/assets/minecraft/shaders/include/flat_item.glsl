@@ -4,8 +4,9 @@ vec2 corner = corners[gl_VertexID % 4];
 vec2 texSize = textureSize(Sampler0, 0);
 
 gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
+#ifndef NO_LIGHTMAP
 vertexColor = minecraft_mix_light(Light0_Direction, Light1_Direction, Normal, Color) * texelFetch(Sampler2, UV2 / 16, 0);
-
+#endif
 if (FogStart < 100000 && texSize.x > 256 && abs(length(Normal) - 0.625) < 0.01) //Not in hand, atlas is not a mob, weird Normal length from display.
 {
     vec3 absNormal = IViewRotMat * normalize(Normal);
@@ -24,6 +25,9 @@ if (FogStart < 100000 && texSize.x > 256 && abs(length(Normal) - 0.625) < 0.01) 
 
         gl_Position = ProjMat * ModelViewMat * vec4(Position + offset * 0.25, 1.0);
     }
-
+    #ifndef NO_LIGHTMAP
     vertexColor = texelFetch(Sampler2, UV2 / 16, 0) * Color;
+    #else
+    vertexColor = Color;
+    #endif
 }
