@@ -28,7 +28,10 @@ void main() {
     if (tint.a == 0)
     {
         vec3 hsv = RGBtoHSV(tint.rgb * color.rgb);
-        hsv.r -= sin((hsv.r) * PI * 3) * 0.1 * (1 - color.r);
+        vec3 rgb = hue(hsv.r);
+        float luma = rgb.r * 0.299 + rgb.g * 0.587 + rgb.b * 0.114;
+        hsv.r = fract(hsv.r + sign(sin((hsv.r - 1 / 6.0) * PI * 2)) * 0.2 * (1 - color.r) * luma);
+        hsv.g += (0.5 - color.r) * 0.1 * luma;
         color.rgb = HSVtoRGB(hsv);
     }
     color *= vertexColor * ColorModulator;
