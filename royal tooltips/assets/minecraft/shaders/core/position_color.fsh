@@ -1,4 +1,4 @@
-#version 460
+#version 150
 
 in vec4 vertexColor;
 
@@ -19,12 +19,15 @@ vec4 colors[] = vec4[](
     vec4(230, 192, 44, 255) / 255
 );
 
-int bitmap[][] = int[][](
-    int[](0, 2, 0, 2, 3),
-    int[](2, 0, 2, 4, 4),
-    int[](0, 2, 2, 4, 4),
-    int[](2, 4, 4, 4, 4),
-    int[](1, 4, 4, 4, 4)
+#define WIDTH 5
+#define HEIGHT 5
+int bitmap[] = int[]
+(
+    0, 2, 0, 2, 3,
+    2, 0, 2, 4, 4,
+    0, 2, 2, 4, 4,
+    2, 4, 4, 4, 4,
+    1, 4, 4, 4, 4
 );
 
 
@@ -53,9 +56,10 @@ void main() {
 
         ivec2 corner = min(pos, res - pos);
 
-        if (corner.x < 5 && corner.y < 5)
+        if (corner.x < WIDTH && corner.y < HEIGHT)
         {
-            int bit = bitmap[corner.y][corner.x];
+            int bit = bitmap[corner.y * WIDTH + corner.x];
+            
             if (bit == 0)
                 discard;
             if (bit != 4)
