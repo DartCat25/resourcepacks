@@ -82,4 +82,7 @@ else if(block.y >= 135 && block.y <= 261)
 if(block.y > 261) offset = vec2(2, 0);
 
 
-color = texture(Sampler0, (texCord - block + offset) / 5) * vertexColor * modulator;
+color = texture(Sampler0, (texCord - block + offset) / 5) * modulator;
+#ifndef POSITION_TEX
+color *= vertexColor;
+#endif
