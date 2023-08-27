@@ -40,7 +40,7 @@ void main() {
 
     bool isHeader = abs(Pos.y - ScrSize.y / 2 + 81) <= 1 && int(floor(Pos.x) - floor(ScrSize.x / 2) + 113) % 32 <= 1;
 
-    if (tex.gba == vec3(0, 255, 3) / 255 && ProjMat[3][0] == -1 && abs(ScrSize.y - Pos.y - 12) > 1 && Pos.z == 150)
+    if (tex.gba == vec3(0, 255, 3) / 255 && ProjMat[3][0] == -1 && abs(ScrSize.y - Pos.y - 12) > 1 && Pos.z == 150 && abs(Pos.x - floor(ScrSize.x / 2) + 135) > 1)
     {
         switch (int(tex.r * 255))
         {
