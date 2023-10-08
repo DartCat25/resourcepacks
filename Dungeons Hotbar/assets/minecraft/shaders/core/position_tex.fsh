@@ -17,7 +17,6 @@ flat in vec4 tint;
 flat in int bilinear;
 
 out vec4 fragColor;
-out float gl_FragDepth;
 
 vec4 Bilinear(sampler2D Sampler, vec2 uv)
 {
