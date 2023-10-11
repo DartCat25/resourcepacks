@@ -1,0 +1,1 @@
+Applied [Minecraft Ten](https://modrinth.com/resourcepack/mc10) font pack made by [xllifi](https://modrinth.com/user/xllifi) ([CC-BY 4.0 License](https://github.com/xlifi/MinecraftTen/blob/1.20/LICENSE.md)).
