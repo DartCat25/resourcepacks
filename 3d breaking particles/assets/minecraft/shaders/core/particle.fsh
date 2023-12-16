@@ -30,7 +30,6 @@ in vec4 glPos;
 in vec2 uv1, uv2, inUV;
 flat in vec2 uv3;
 
-out float gl_FragDepth;
 out vec4 fragColor;
 
 //Got from https://iquilezles.org/articles/intersectors/
