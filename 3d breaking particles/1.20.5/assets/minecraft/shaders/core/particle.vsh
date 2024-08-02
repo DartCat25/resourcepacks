@@ -28,7 +28,7 @@ out vec2 uv1, uv2, inUV;
 flat out vec2 uv3;
 
 void main() {
-    vertexDistance = fog_distance(ModelViewMat, Position, FogShape);
+    vertexDistance = fog_distance(Position, FogShape);
     texCoord0 = UV0;
     vertexColor = Color * texelFetch(Sampler2, UV2 / 16, 0);
     Pos = vec4(0);
