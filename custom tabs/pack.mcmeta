@@ -1,7 +1,7 @@
 {
 	"pack": {
-		"pack_format": 15,
-		"supported_formats": [ 15, 100 ],
+		"pack_format": 18,
+		"supported_formats": [ 18, 100 ],
 		"description":
 		{
 			"text":"By DartCat25",
@@ -13,8 +13,8 @@
 		"entries":
 		[
 			{
-				"directory": "1.20.5",
-				"formats": [ 15, 1000 ]
+				"directory": "1.20.2",
+				"formats": [ 18, 1000 ]
 			}
 		]
 	}
