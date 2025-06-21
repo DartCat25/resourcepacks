@@ -1,0 +1,22 @@
+{
+  "pack": {
+    "pack_format": 55,
+    "supported_formats": [ 55, 100 ],
+    "description": [
+      "by ",
+      {"text": "DartCat25", "color": "aqua"},
+      " & ",
+      {"text": "Mickey Joe", "color": "gold"}
+    ]
+  },
+	"overlays":
+	{
+		"entries":
+		[
+			{
+				"directory": "1.21.6",
+				"formats": [ 63, 1000 ]
+			}
+		]
+	}
+}
