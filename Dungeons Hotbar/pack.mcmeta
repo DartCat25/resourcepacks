@@ -1,6 +1,33 @@
 {
-  "pack": {
-    "pack_format": 15,
-    "description": "by DartCat25"
-  }
+	"pack": {
+		"pack_format": 15,
+		"supported_formats": [ 15, 62 ],
+		"description":
+		{
+			"text":"By DartCat25",
+			"bold": false
+		}
+	},
+	"overlays":
+	{
+		"entries":
+		[
+			{
+				"directory": "1.20.2",
+				"formats": [ 18, 1000 ]
+			},
+			{
+				"directory": "1.21",
+				"formats": [ 34, 1000 ]
+			},
+			{
+				"directory": "1.21.2",
+				"formats": [ 42, 1000 ]
+			},
+			{
+				"directory": "1.21.6",
+				"formats": [ 63, 1000 ]
+			}
+		]
+	}
 }
