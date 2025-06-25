@@ -21,9 +21,6 @@ uniform mat4 ProjMat;
 uniform vec3 Light0_Direction;
 uniform vec3 Light1_Direction;
 
-uniform float GameTime;
-uniform vec2 ScreenSize;
-
 out float vertexDistance;
 out vec4 vertexColor;
 out vec4 lightMapColor;
