@@ -7,7 +7,6 @@ uniform sampler2D Sampler0;
 
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
-uniform vec2 ScreenSize;
 
 out vec2 texCoord0;
 
