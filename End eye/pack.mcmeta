@@ -1,0 +1,14 @@
+{
+	"pack": {
+    "max_format": 65,
+    "min_format": [
+      65,
+      1
+    ],
+		"description":
+		{
+			"text":"By DartCat25",
+			"bold": false
+		}
+	}
+}
