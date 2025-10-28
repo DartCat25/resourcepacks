@@ -31,10 +31,6 @@ vec4 minecraft_sample_lightmap(sampler2D lightMap, ivec2 uv) {
 void main() {
     vec3 pos = Position + (ChunkPosition - CameraBlockPos) + CameraOffset - vec3(0, easeOutSine(1 - ChunkVisibility)*100, 0);
 
-    
-    if (abs(Position.x + ChunkPosition.x) < 16 && abs(Position.z + ChunkPosition.z) < 16)
-        pos.y += 10;
-
     gl_Position = ProjMat * ModelViewMat * vec4(pos, 1.0);
 
 
